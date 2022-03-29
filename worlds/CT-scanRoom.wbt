@@ -1,0 +1,362 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "caster"
+      coulombFriction [
+        0.01
+      ]
+      softERP 0.1
+      softCFM 0.0002
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.31340643303136156 -0.667553502864056 -0.6753878356533284 5.095297577043935
+  position -5.122719768672904 -6.252985700539512 10.234628008261968
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Solid {
+  translation 0 0 -0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "/home/lynchxps/workspace/Webots/texture/WoodenFloor.jpeg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry DEF Floor Box {
+        size 6 4 0.2
+      }
+    }
+  ]
+  name "floor"
+  boundingObject USE Floor
+}
+Solid {
+  translation 3.05 0 1
+  children [
+    Solid {
+      translation -3.05 0 1
+      children [
+        DEF Roof Shape {
+          appearance PBRAppearance {
+            transparency 1
+          }
+          geometry Box {
+            size 6 4 0.1
+          }
+          castShadows FALSE
+        }
+      ]
+      name "Roof"
+      boundingObject USE Roof
+    }
+    Solid {
+      translation -3.05 -2.05 0
+      rotation 0 0 1 1.5708
+      children [
+        DEF LONG_WALL Shape {
+          appearance DEF Wall_app PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/home/lynchxps/workspace/Webots/texture/WhitePaintedWall.png"
+              ]
+            }
+            transparency 0.6
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 6 2
+          }
+        }
+      ]
+      name "EastWall_l"
+      boundingObject USE LONG_WALL
+    }
+    Solid {
+      translation -6.1 0 0
+      children [
+        DEF SHORT_WALL Shape {
+          appearance USE Wall_app
+          geometry Box {
+            size 0.1 4.2 2
+          }
+        }
+      ]
+      name "SouthWall_s"
+      boundingObject USE SHORT_WALL
+    }
+    Solid {
+      translation -3.05 2.05 0
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        DEF LONG_WALL Shape {
+          appearance USE Wall_app
+          geometry Box {
+            size 0.1 6 2
+          }
+        }
+      ]
+      name "WestWall_l"
+      boundingObject USE LONG_WALL
+    }
+    DEF SHORT_WALL Shape {
+      appearance USE Wall_app
+      geometry Box {
+        size 0.1 4.2 2
+      }
+    }
+  ]
+  name "Walls"
+  boundingObject USE SHORT_WALL
+}
+Cabinet {
+  translation -0.3 -2 0
+  rotation 0 0 1 1.5708
+  name "Cabinet"
+  rowsHeights [
+    0.3, 0.2, 0.2, 0.4, 0.4
+  ]
+}
+Cabinet {
+  translation -2 -2 0
+  rotation 0 0 1 1.5708
+  name "BottomCabinet2"
+  rowsHeights [
+    0.2, 0.2, 0.2
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "Drawer (1, 1, 0.4, 0.2)"
+    "Drawer (1, 2, 0.4, 0.2)"
+    "Drawer (2, 1, 0.4, 0.2)"
+    "Drawer (2, 2, 0.4, 0.2)"
+    "Drawer (2, 3, 0.4, 0.2)"
+    "Drawer (1, 3, 0.4, 0.2)"
+  ]
+}
+Cabinet {
+  translation -1.14 -2 -7.10543e-15
+  rotation 0 0 1 1.5708
+  name "BottomCabinet1"
+  rowsHeights [
+    0.6
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1)"
+    "LeftSidedDoor (2, 1, 1, 1)"
+  ]
+}
+Cabinet {
+  translation -1.14 -2 1.1
+  rotation 0 0 1 1.5708
+  name "TopCabinet1"
+  depth 0.2
+  rowsHeights [
+    0.4
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1)"
+    "LeftSidedDoor (2, 1, 1, 1)"
+  ]
+}
+Cabinet {
+  translation -2 -2 1.1
+  rotation 0 0 1 1.5708
+  name "TopCabinet2"
+  depth 0.2
+  rowsHeights [
+    0.4
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1)"
+    "LeftSidedDoor (2, 1, 1, 1)"
+  ]
+}
+Solid {
+  translation 1.03 0.2 0
+  rotation 0 0 1 3.14159
+  children [
+    DEF ct-scanner Transform {
+      translation 0 1.45801e-06 0.6
+      rotation 0 0 -0.9999999999999999 1.5707953071795862
+      scale 0.006 0.006 0.006
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0.14902
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "/home/lynchxps/workspace/Webots/ModelFiles/ct_scanner_v11_-bed.stl"
+            ]
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.639216 0.643137 0.635294
+            roughness 0.4
+            metalness 0.4
+          }
+          geometry Mesh {
+            url [
+              "/home/lynchxps/workspace/Webots/ModelFiles/ct_scanner_v11_-base.stl"
+            ]
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            roughness 0.1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "/home/lynchxps/workspace/Webots/ModelFiles/ct_scanner_v11-_head.stl"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  name "ct-scaner"
+  boundingObject USE ct-scanner
+}
+Chair {
+  translation 2.65 -1.5 0
+  rotation 0 0 1 3.14159
+  name "chair(1)"
+  physics Physics {
+  }
+}
+OfficeChair {
+  translation -1.79 -1.09 0
+  rotation 0 0 -1 1.0472
+}
+Monitor {
+  translation -2.12938 -1.81043 0.68
+  rotation 0 0 1 1.309
+  mass 1
+}
+Robot {
+  translation -2.99 0 0.79
+  children [
+    Transform {
+      translation 3.4 0.209 -0.24
+      rotation 0.577349935856137 0.5773509358560258 0.577349935856137 -2.094395307179586
+      children [
+        DEF UV_Sensor LightSensor {
+          translation 0.01 0 0
+          rotation -0.30175911983370024 0.1881290747092686 -0.9346383711608598 -5.307179586466759e-06
+          name "light_sensor_4"
+          physics Physics {
+          }
+          lookupTable [
+            0.334 0 0
+            6 1000 0
+          ]
+          colorFilter 0 0 1
+          occlusion TRUE
+        }
+        Shape {
+          geometry Box {
+            size 0.02 0.1 0.1
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+    Transform {
+      translation 3 1.99 0
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        DEF UV_Sensor LightSensor {
+          translation 0.01 0 0
+          rotation 0 0 -1 -5.307179586466759e-06
+          name "light_sensor_3"
+          physics Physics {
+          }
+          lookupTable [
+            0.334 0 0
+            6 1000 0
+          ]
+          colorFilter 0 0 1
+          occlusion TRUE
+        }
+        Shape {
+          geometry Box {
+            size 0.02 0.1 0.1
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+    Transform {
+      translation 0.6 1.99 0
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        LightSensor {
+          translation 0.01 0 0
+          rotation 0 0 -1 -5.307179586466759e-06
+          name "light_sensor_2"
+          physics Physics {
+          }
+          lookupTable [
+            0.334 0 0
+            6 1000 0
+          ]
+          colorFilter 0 0 1
+          occlusion TRUE
+        }
+        Shape {
+          geometry Box {
+            size 0.02 0.1 0.1
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+    Shape {
+      geometry Box {
+        size 0.03 0.1 0.1
+      }
+      castShadows FALSE
+    }
+    DEF UV_Sensor LightSensor {
+      translation 0.03 0 0
+      name "light_sensor_1"
+      physics Physics {
+      }
+      lookupTable [
+        0.334 0 0
+        6 1000 0
+      ]
+      colorFilter 0 0 1
+      occlusion TRUE
+    }
+  ]
+  name "LightSensors"
+  controller "light_sensor"
+}
