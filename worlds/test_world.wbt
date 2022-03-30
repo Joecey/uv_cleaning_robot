@@ -2,15 +2,30 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.2770301427644709 0.29491098586091086 0.9144844506159974 1.5976508744442697
-  position 0.06608322707043203 -5.376532885149326 3.0503420292935917
+  orientation -0.3266300073057001 0.18991143135581443 0.9258760643670751 2.1539238732990724
+  position 0.7526174210799697 -1.2853781612647175 1.1590545844180482
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  floorSize 6 6
+  floorTileSize 0.25 0.25
+  wallHeight 0.05
+}
+WoodenBox {
+  translation -0.15 0.25 0.05
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.35 0.02 0.05
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.24 -0.12 0.05
+  size 0.1 0.1 0.1
 }
 CardboardBox {
   translation -6.83598e-17 -1.80017e-17 0.79866
@@ -18,6 +33,7 @@ CardboardBox {
   size 0.1 0.1 0.1
   mass 0.2
 }
-Youbot {
-  translation -0.795225 -1.17837 0.21
+E-puck {
+  translation 0 -0.36 0
+  controller "epuck_wheel_drive_example"
 }
