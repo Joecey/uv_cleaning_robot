@@ -6,7 +6,7 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 renderingMode: PLAIN
 orthographicViewHeight: 1
-textFiles: 0 "controllers/epuck_wheel_drive_example/epuck_wheel_drive_example.py"
-globalOptionalRendering: CoordinateSystem
+textFiles: 0 "controllers/epucK_avoid_collision/epucK_avoid_collision.py"
+globalOptionalRendering: CoordinateSystem::DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: e-puck:camera;1;1;0;0
