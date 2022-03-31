@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.19154321012309097 0.08968483266042279 0.977378038144102 2.2832450605616534
-  position 1.0283813562543094 -1.2468911262975035 0.727220141852733
+  orientation -0.3309068656675806 0.18635787693221903 0.9250791252424703 2.181020778998689
+  position 0.9830035266222013 -1.5811977935593213 1.6391619879291501
 }
 TexturedBackground {
   texture "noon_building_overcast"
@@ -12,17 +12,17 @@ TexturedBackgroundLight {
   texture "noon_building_overcast"
 }
 WoodenBox {
-  translation -0.26 0.25 0.15
+  translation -0.15 0.2 0.17
   name "wooden box(2)"
   size 0.3 0.3 0.3
 }
 WoodenBox {
-  translation 0.35 0.02 0.05
+  translation 0.32 -0.19 0.05
   name "wooden box(1)"
   size 0.1 0.1 0.1
 }
 WoodenBox {
-  translation -0.24 -0.12 0.05
+  translation -0.24 -0.18 0.05
   size 0.1 0.1 0.1
 }
 CardboardBox {
@@ -34,7 +34,7 @@ CardboardBox {
 E-puck {
   translation 0.0579557 -0.375528 0
   rotation 0 0 1 1.309
-  controller "epuck_wheel_drive_example"
+  controller "epucK_avoid_collision"
 }
 Floor {
   size 1 1
@@ -104,7 +104,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "E:/4th Year SS/robotics assignment/uv_cleaning_robot/amogus_texture.jpg"
+            "E:/22_python_scripts/uv_cleaning_robot/amogus_texture.jpg"
           ]
         }
         roughness 0.5
@@ -119,5 +119,34 @@ Solid {
   name "ball_crusher"
   boundingObject USE BALL_GEOMETRY
   physics Physics {
+  }
+}
+Solid {
+  translation 0.1 0.399998 0.16
+  rotation 1 0 0 1.5708
+  scale 0.005 0.005 0.005
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "E:/22_python_scripts/uv_cleaning_robot/amogus_texture.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "E:/22_python_scripts/uv_cleaning_robot/amogus.stl"
+        ]
+      }
+    }
+  ]
+  name "among_us"
+  boundingObject Mesh {
+    url [
+      "E:/22_python_scripts/uv_cleaning_robot/amogus.stl"
+    ]
   }
 }
