@@ -2,17 +2,19 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.24574999433953876 0.12806579248338712 0.9608361426787185 2.213168303496114
-  position 1.0068264714451465 -1.3043007624233838 0.7578524222408027
+  orientation -0.19154321012309097 0.08968483266042279 0.977378038144102 2.2832450605616534
+  position 1.0283813562543094 -1.2468911262975035 0.727220141852733
 }
 TexturedBackground {
+  texture "noon_building_overcast"
 }
 TexturedBackgroundLight {
+  texture "noon_building_overcast"
 }
 WoodenBox {
-  translation -0.15 0.25 0.05
+  translation -0.26 0.25 0.15
   name "wooden box(2)"
-  size 0.1 0.1 0.1
+  size 0.3 0.3 0.3
 }
 WoodenBox {
   translation 0.35 0.02 0.05
@@ -41,8 +43,9 @@ Solid {
   translation 0 0.5 0.05
   children [
     Shape {
-      appearance PBRAppearance {
-        roughness 1
+      appearance DEF WALL_APPEARANCE PBRAppearance {
+        baseColor 0.666667 0 1
+        roughness 0.5
         metalness 0
       }
       geometry DEF WALL_GEOMETRY Box {
@@ -57,10 +60,7 @@ Solid {
   translation 0 -0.5 0.05
   children [
     Shape {
-      appearance PBRAppearance {
-        roughness 1
-        metalness 0
-      }
+      appearance USE WALL_APPEARANCE
       geometry DEF WALL_GEOMETRY Box {
         size 1 0.02 0.1
       }
@@ -74,10 +74,7 @@ Solid {
   rotation 0 0 1 1.5708
   children [
     Shape {
-      appearance PBRAppearance {
-        roughness 1
-        metalness 0
-      }
+      appearance USE WALL_APPEARANCE
       geometry DEF WALL_GEOMETRY Box {
         size 1 0.02 0.1
       }
@@ -91,10 +88,7 @@ Solid {
   rotation 0 0 1 1.5708
   children [
     Shape {
-      appearance PBRAppearance {
-        roughness 1
-        metalness 0
-      }
+      appearance USE WALL_APPEARANCE
       geometry DEF WALL_GEOMETRY Box {
         size 1 0.02 0.1
       }
@@ -108,7 +102,12 @@ Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        roughness 1
+        baseColorMap ImageTexture {
+          url [
+            "E:/4th Year SS/robotics assignment/uv_cleaning_robot/amogus_texture.jpg"
+          ]
+        }
+        roughness 0.5
         metalness 0
       }
       geometry DEF BALL_GEOMETRY Sphere {
