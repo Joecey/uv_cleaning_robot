@@ -1,0 +1,293 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 64
+  contactProperties [
+    ContactProperties {
+      material2 "dumbbell"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.27557096872799325 0.18367377394730683 0.9435701277373446 2.0187921009459457
+  position 1.217665893369238 -2.18044774541777 1.7604795556569615
+}
+TexturedBackground {
+  texture "noon_building_overcast"
+}
+TexturedBackgroundLight {
+  texture "noon_building_overcast"
+}
+Floor {
+  size 1 1
+}
+Solid {
+  translation 0 0.5 0.05
+  children [
+    Shape {
+      appearance DEF WALL_APPEARANCE PBRAppearance {
+        baseColor 0.666667 0 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation 0 -0.5 0.05
+  children [
+    Shape {
+      appearance DEF WALL_APPEARANCE PBRAppearance {
+        baseColor 0.666667 0 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall(1)"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation 0.5 0 0.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall(2)"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation -0.5 0 0.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall(3)"
+  boundingObject USE WALL_GEOMETRY
+}
+Robot {
+  translation 0 0 0.05
+  children [
+    Solid {
+      translation 0 0 0.09
+      children [
+        DEF light Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+            emissiveColor 0 0 1
+          }
+          geometry Cylinder {
+            height 0.2
+            radius 0.02
+          }
+        }
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 3
+          location 0 0 0.2
+        }
+      ]
+      name "solid(4)"
+      boundingObject USE light
+    }
+    DistanceSensor {
+      translation 0.1025 -0.025 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry DEF ds_shape Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right"
+      boundingObject USE ds_shape
+    }
+    DistanceSensor {
+      translation 0.1025 0.025 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry DEF ds_shape Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_left"
+      boundingObject USE ds_shape
+    }
+    DEF wheel1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
+      device [
+        DEF wheel1 RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint DEF WHEEL1 Solid {
+        translation 0.05 0.06 0
+        rotation 1 -1.1775671812919276e-16 3.9252239376397585e-17 1.5708
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0 0.666667 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+            }
+          }
+        ]
+        boundingObject USE WHEEL
+        physics DEF WHEEL_PHYSICS Physics {
+        }
+      }
+    }
+    DEF wheel2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 -0.06 0
+      }
+      device [
+        DEF wheel2 RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint DEF WHEEL2 Solid {
+        translation 0.05 -0.06 0
+        rotation 1 0 -7.850447875279516e-17 1.5708
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0 0.666667 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics DEF WHEEL_PHYSICS Physics {
+        }
+      }
+    }
+    DEF wheel3 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.05 0.06 0
+      }
+      device [
+        DEF wheel3 RotationalMotor {
+          name "wheel3"
+        }
+      ]
+      endPoint DEF WHEEL3 Solid {
+        translation -0.05 0.06 0
+        rotation 1 -1.570089575055903e-16 -7.850447875279514e-17 1.5708000000000004
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0 0.666667 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+            }
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL
+        physics DEF WHEEL_PHYSICS Physics {
+        }
+      }
+    }
+    DEF wheel4 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.05 -0.06 0
+      }
+      device [
+        DEF wheel4 RotationalMotor {
+          name "wheel4"
+        }
+      ]
+      endPoint DEF WHEEL4 Solid {
+        translation -0.05 -0.06 0
+        rotation 1 -7.850447875279516e-17 -7.850447875279516e-17 1.5708000000000004
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0 0.666667 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+            }
+          }
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL
+        physics DEF WHEEL_PHYSICS Physics {
+        }
+      }
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.666667 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOX_GEO Box {
+        size 0.2 0.1 0.05
+      }
+    }
+  ]
+  name "4_wheel"
+  boundingObject USE BOX_GEO
+  physics Physics {
+  }
+  controller "4_wheel_controller"
+}

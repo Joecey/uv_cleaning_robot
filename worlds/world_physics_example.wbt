@@ -1,0 +1,153 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.3309068656675806 0.18635787693221903 0.9250791252424703 2.181020778998689
+  position 0.8610506023865423 -1.476986988677737 1.3986168385837998
+}
+TexturedBackground {
+  texture "noon_building_overcast"
+}
+TexturedBackgroundLight {
+  texture "noon_building_overcast"
+}
+WoodenBox {
+  translation -0.15 0.2 0.17
+  name "wooden box(2)"
+  size 0.3 0.3 0.3
+}
+WoodenBox {
+  translation 0.32 -0.19 0.05
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.24 -0.18 0.05
+  size 0.1 0.1 0.1
+}
+CardboardBox {
+  translation -6.83598e-17 -1.80017e-17 0.79866
+  rotation 0.13045614448940507 -0.9784210836705397 -0.1602291402770606 1.6339806880107638e-16
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+E-puck {
+  translation 0.0579557 -0.375528 0
+  rotation 0 0 1 1.309
+  controller "epucK_avoid_collision"
+}
+Floor {
+  size 1 1
+}
+Solid {
+  translation 0 0.5 0.05
+  children [
+    Shape {
+      appearance DEF WALL_APPEARANCE PBRAppearance {
+        baseColor 0.666667 0 1
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation 0 -0.5 0.05
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall(1)"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation 0.5 0 0.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall(2)"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation -0.5 0 0.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance USE WALL_APPEARANCE
+      geometry DEF WALL_GEOMETRY Box {
+        size 1 0.02 0.1
+      }
+    }
+  ]
+  name "wall(3)"
+  boundingObject USE WALL_GEOMETRY
+}
+Solid {
+  translation 0.15 -0.05 0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "E:/22_python_scripts/uv_cleaning_robot/amogus_texture.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BALL_GEOMETRY Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  name "ball_crusher"
+  boundingObject USE BALL_GEOMETRY
+  physics Physics {
+  }
+}
+Solid {
+  translation 0.1 0.399998 0.16
+  rotation 1 0 0 1.5708
+  scale 0.005 0.005 0.005
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "E:/22_python_scripts/uv_cleaning_robot/amogus_texture.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "E:/22_python_scripts/uv_cleaning_robot/amogus.stl"
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+  name "among_us"
+  boundingObject Mesh {
+    url [
+      "E:/22_python_scripts/uv_cleaning_robot/amogus.stl"
+    ]
+  }
+}
