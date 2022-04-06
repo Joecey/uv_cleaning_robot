@@ -11,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.2226841302299124 -0.08512328886276994 -0.9711672378313287 3.85251785870486
-  position 3.074819547873738 -2.0252798642740375 2.3144676080643065
+  orientation -0.27152335440936776 -0.26439535909989365 0.925402702663399 4.608458178793967
+  position -0.41869587556244814 5.63616908401114 3.7387837393993446
 }
 TexturedBackground {
   texture "noon_building_overcast"
@@ -74,11 +74,17 @@ DEF UV_OMNI Robot {
     DEF cylinder_light Solid {
       translation 0.1 0 0.58
       children [
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 10
+          location 0 0.3 0
+        }
         Shape {
           appearance PBRAppearance {
             baseColor 0 0 1
+            transparency 0.2
             roughness 1
-            metalness 0
           }
           geometry DEF light_shape Cylinder {
             height 1
@@ -86,6 +92,126 @@ DEF UV_OMNI Robot {
           }
         }
       ]
+      boundingObject USE light_shape
+    }
+    DEF cylinder_light Solid {
+      translation 0.05 0.05 0.58
+      children [
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 10
+          location 0 0.3 0
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            transparency 0.2
+            roughness 1
+          }
+          geometry DEF light_shape Cylinder {
+            height 1
+            radius 0.02
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE light_shape
+    }
+    DEF cylinder_light Solid {
+      translation -0.05 0.05 0.58
+      children [
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 10
+          location 0 0.3 0
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            transparency 0.2
+            roughness 1
+          }
+          geometry DEF light_shape Cylinder {
+            height 1
+            radius 0.02
+          }
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE light_shape
+    }
+    DEF cylinder_light Solid {
+      translation -0.1 0 0.58
+      children [
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 10
+          location 0 0.3 0
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            transparency 0.2
+            roughness 1
+          }
+          geometry DEF light_shape Cylinder {
+            height 1
+            radius 0.02
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE light_shape
+    }
+    DEF cylinder_light Solid {
+      translation -0.05 -0.05 0.58
+      children [
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 10
+          location 0 0.3 0
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            transparency 0.2
+            roughness 1
+          }
+          geometry DEF light_shape Cylinder {
+            height 1
+            radius 0.02
+          }
+        }
+      ]
+      name "solid(4)"
+      boundingObject USE light_shape
+    }
+    DEF cylinder_light Solid {
+      translation 0.05 -0.05 0.58
+      children [
+        PointLight {
+          attenuation 0 0 1
+          color 0 0 1
+          intensity 10
+          location 0 0.3 0
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            transparency 0.2
+            roughness 1
+          }
+          geometry DEF light_shape Cylinder {
+            height 1
+            radius 0.02
+          }
+        }
+      ]
+      name "solid(5)"
       boundingObject USE light_shape
     }
     DEF SOLID1 Solid {
