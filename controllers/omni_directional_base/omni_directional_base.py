@@ -2,11 +2,16 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
-from controller import Robot
+# import keyboard package for teleop too
+from controller import Robot, Keyboard
 
 # create the Robot instance.
 TIME_STEP = 128
 robot = Robot()
+
+# setup keyboard for teleop
+keyboard = Keyboard()
+keyboard.enable(TIME_STEP)
 
 # setup wheels
 wheels = []
@@ -18,7 +23,7 @@ for name in wheel_names:
 # print('wheels ready')
 
 # max speed of wheels
-max_speed = 1.5 #[rad/s]
+max_speed = 3 #[rad/s]
 
 # set initial position goal and speed
 # make all wheels move same direction
@@ -73,4 +78,23 @@ def left(multiplier):
 
 # FOR LOOP HERE
 # speed multiplier variables from 0 to 1
-left(1)
+# Make sure you click into 3d view before moving 
+while robot.step(TIME_STEP) != -1:
+    # get currently pressed key 
+    key = keyboard.getKey()
+    print(key)
+    # control robot using key preses
+    if key == ord('W'):
+        forward(1)
+    
+    elif key == ord('S'):
+        backward(1)
+        
+    elif key == ord('A'):
+        left(1)
+        
+    elif key == ord('D'):
+        right(1)
+    
+    else:
+        stop()

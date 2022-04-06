@@ -1,75 +1,13 @@
-#VRML_SIM R2022a utf8
-WorldInfo {
-  basicTimeStep 64
-  contactProperties [
-    ContactProperties {
-      material2 "dumbbell"
-      coulombFriction [
-        0
-      ]
-    }
-  ]
-}
-Viewpoint {
-  orientation -0.20563570615273752 -0.03919534832507575 0.9778433826665399 3.5101429145822847
-  position 3.683803719452227 1.4349555029419654 1.90325912454674
-}
-TexturedBackground {
-  texture "noon_building_overcast"
-}
-TexturedBackgroundLight {
-  texture "noon_building_overcast"
-}
-Floor {
-  size 3 3
-  tileSize 0.25 0.25
-}
-Solid {
-  translation 0 1.5 0.05
-  children [
-    Shape {
-      appearance DEF WALL_APPEARANCE PBRAppearance {
-        baseColor 0.666667 0 1
-        roughness 0.5
-        metalness 0
-      }
-      geometry DEF WALL_GEOMETRY Box {
-        size 3 0.02 0.1
-      }
-    }
-  ]
-  name "wall"
-  boundingObject USE WALL_GEOMETRY
-}
-Solid {
-  translation 0 -1.5 0.05
-  children [
-    Shape {
-      appearance DEF WALL_APPEARANCE PBRAppearance {
-        baseColor 0.666667 0 1
-        roughness 0.5
-        metalness 0
-      }
-      geometry USE WALL_GEOMETRY
-    }
-  ]
-  name "wall(1)"
-  boundingObject USE WALL_GEOMETRY
-}
-Solid {
-  translation 1.5 0 0.05
-  rotation 0 0 1 1.5708
-  children [
-    Shape {
-      appearance USE WALL_APPEARANCE
-      geometry USE WALL_GEOMETRY
-    }
-  ]
-  name "wall(2)"
-  boundingObject USE WALL_GEOMETRY
-}
-DEF UV_OMNI Robot {
-  translation 0 0 0.12
+PROTO UVRobotProto [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    bodyMass     1
+]
+{
+Robot {
+    translation IS translation
+    rotation IS rotation
+    mass IS bodyMass
   children [
     SharpGP2D120 {
       translation 0 0.2 0.105
@@ -1217,15 +1155,5 @@ DEF UV_OMNI Robot {
   }
   controller "omni_directional_base"
 }
-Solid {
-  translation -1.5 0 0.05
-  rotation 0 0 1 1.5708
-  children [
-    Shape {
-      appearance USE WALL_APPEARANCE
-      geometry USE WALL_GEOMETRY
-    }
-  ]
-  name "wall(3)"
-  boundingObject USE WALL_GEOMETRY
+
 }
