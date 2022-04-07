@@ -47,7 +47,8 @@ avoid_obs_counter = 0
 
 while robot.step(TIME_STEP) != -1:
     # have robot move forward by default
-    print(avoid_obs_counter)
+    # uncomment below if you want to see avoidance counter in print screen
+    # print(avoid_obs_counter)
     left_speed = 1.0
     right_speed = 1.0
     

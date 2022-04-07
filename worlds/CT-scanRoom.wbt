@@ -13,8 +13,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.31340643303136156 -0.667553502864056 -0.6753878356533284 5.095297577043935
-  position -5.122719768672904 -6.252985700539512 10.234628008261968
+  orientation -0.26685495306387974 -0.3809105405668327 0.8852658324539346 4.913747945312829
+  position -4.843269283807027 11.159268193158233 9.281721490856812
 }
 TexturedBackground {
 }
@@ -24,14 +24,8 @@ Solid {
   translation 0 0 -0.1
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "/home/lynchxps/workspace/Webots/texture/WoodenFloor.jpeg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance GlossyPaint {
+        baseColor 0.941176 0.596078 1
       }
       geometry DEF Floor Box {
         size 6 4 0.2
@@ -66,11 +60,6 @@ Solid {
       children [
         DEF LONG_WALL Shape {
           appearance DEF Wall_app PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "/home/lynchxps/workspace/Webots/texture/WhitePaintedWall.png"
-              ]
-            }
             transparency 0.6
             roughness 1
             metalness 0
@@ -359,4 +348,7 @@ Robot {
   ]
   name "LightSensors"
   controller "light_sensor"
+}
+UVRobotProto {
+  translation 0 -0.67 0.15
 }
