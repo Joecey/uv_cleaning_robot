@@ -14,7 +14,7 @@ Robot {
       rotation 0 0 1 1.5708
     }
     DEF cylinder_light Solid {
-      translation 0.05 0 0.58
+      translation 0.05 0 0.75
       children [
         PointLight {
           attenuation 0 0 1
@@ -37,7 +37,7 @@ Robot {
       boundingObject USE light_shape
     }
     DEF cylinder_light Solid {
-      translation -0.05 -0.05 0.58
+      translation -0.05 -0.05 0.75
       children [
         PointLight {
           attenuation 0 0 1
@@ -61,7 +61,7 @@ Robot {
       boundingObject USE light_shape
     }
     DEF cylinder_light Solid {
-      translation -0.05 0.05 0.58
+      translation -0.05 0.05 0.75
       children [
         PointLight {
           attenuation 0 0 1
