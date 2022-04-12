@@ -13,8 +13,9 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.26685495306387974 -0.3809105405668327 0.8852658324539346 4.913747945312829
-  position -4.843269283807027 11.159268193158233 9.281721490856812
+  orientation -0.1729574320559311 -0.8542320989911323 0.4902787449500766 5.454399248876296
+  position -9.666825688776237 3.4477372003866966 9.388998463932861
+  follow "robot(1)"
 }
 TexturedBackground {
 }
@@ -24,8 +25,12 @@ Solid {
   translation 0 0 -0.1
   children [
     Shape {
-      appearance GlossyPaint {
-        baseColor 0.941176 0.596078 1
+      appearance Appearance {
+        texture ImageTexture {
+          url [
+            "E:/22_python_scripts/uv_cleaning_robot/textures/WoodenFloor.jpeg"
+          ]
+        }
       }
       geometry DEF Floor Box {
         size 6 4 0.2
@@ -59,10 +64,14 @@ Solid {
       rotation 0 0 1 1.5708
       children [
         DEF LONG_WALL Shape {
-          appearance DEF Wall_app PBRAppearance {
-            transparency 0.6
-            roughness 1
-            metalness 0
+          appearance DEF wall_app Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+              url [
+                "E:/22_python_scripts/uv_cleaning_robot/textures/WhitePaintedWall.png"
+              ]
+            }
           }
           geometry Box {
             size 0.1 6 2
@@ -76,7 +85,7 @@ Solid {
       translation -6.1 0 0
       children [
         DEF SHORT_WALL Shape {
-          appearance USE Wall_app
+          appearance USE wall_app
           geometry Box {
             size 0.1 4.2 2
           }
@@ -90,7 +99,7 @@ Solid {
       rotation 0 0 1 -1.5707953071795862
       children [
         DEF LONG_WALL Shape {
-          appearance USE Wall_app
+          appearance USE wall_app
           geometry Box {
             size 0.1 6 2
           }
@@ -100,7 +109,7 @@ Solid {
       boundingObject USE LONG_WALL
     }
     DEF SHORT_WALL Shape {
-      appearance USE Wall_app
+      appearance USE wall_app
       geometry Box {
         size 0.1 4.2 2
       }
@@ -200,7 +209,7 @@ Solid {
           }
           geometry Mesh {
             url [
-              "/home/lynchxps/workspace/Webots/ModelFiles/ct_scanner_v11_-bed.stl"
+              "E:/22_python_scripts/uv_cleaning_robot/stls/ct_scanner_v11_-bed.stl"
             ]
           }
         }
@@ -212,7 +221,7 @@ Solid {
           }
           geometry Mesh {
             url [
-              "/home/lynchxps/workspace/Webots/ModelFiles/ct_scanner_v11_-base.stl"
+              "E:/22_python_scripts/uv_cleaning_robot/stls/ct_scanner_v11_-base.stl"
             ]
           }
         }
@@ -350,5 +359,5 @@ Robot {
   controller "light_sensor"
 }
 UVRobotProto {
-  translation 0 -0.67 0.15
+  translation 0 -0.87 0.19
 }
