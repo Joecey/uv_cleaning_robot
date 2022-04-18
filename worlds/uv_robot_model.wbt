@@ -11,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.20563570615273752 -0.03919534832507575 0.9778433826665399 3.5101429145822847
-  position 3.683803719452227 1.4349555029419654 1.90325912454674
+  orientation -0.37833001798032495 -0.13286158284125268 0.9160863481680773 3.7641074303513897
+  position 10.854470154042392 13.21413323364853 18.866592103766166
 }
 TexturedBackground {
   texture "noon_building_overcast"
@@ -21,20 +21,22 @@ TexturedBackgroundLight {
   texture "noon_building_overcast"
 }
 Floor {
-  size 3 3
+  size 4 6
   tileSize 0.25 0.25
 }
 Solid {
-  translation 0 1.5 0.05
+  translation 0 3 0.5
   children [
     Shape {
-      appearance DEF WALL_APPEARANCE PBRAppearance {
-        baseColor 0.666667 0 1
-        roughness 0.5
-        metalness 0
+      appearance DEF WALL_APPEARANCE Appearance {
+        texture ImageTexture {
+          url [
+            "E:/22_python_scripts/uv_cleaning_robot/textures/WhitePaintedWall.png"
+          ]
+        }
       }
       geometry DEF WALL_GEOMETRY Box {
-        size 3 0.02 0.1
+        size 4 0.02 1
       }
     }
   ]
@@ -42,14 +44,10 @@ Solid {
   boundingObject USE WALL_GEOMETRY
 }
 Solid {
-  translation 0 -1.5 0.05
+  translation 0 -3 0.5
   children [
     Shape {
-      appearance DEF WALL_APPEARANCE PBRAppearance {
-        baseColor 0.666667 0 1
-        roughness 0.5
-        metalness 0
-      }
+      appearance USE WALL_APPEARANCE
       geometry USE WALL_GEOMETRY
     }
   ]
@@ -57,19 +55,21 @@ Solid {
   boundingObject USE WALL_GEOMETRY
 }
 Solid {
-  translation 1.5 0 0.05
+  translation 2 0 0.5
   rotation 0 0 1 1.5708
   children [
     Shape {
       appearance USE WALL_APPEARANCE
-      geometry USE WALL_GEOMETRY
+      geometry DEF wall_2 Box {
+        size 6 0.02 1
+      }
     }
   ]
   name "wall(2)"
-  boundingObject USE WALL_GEOMETRY
+  boundingObject USE wall_2
 }
 DEF UV_OMNI Robot {
-  translation 0 0 0.12
+  translation -0.96 -0.79 0.12
   children [
     SharpGP2D120 {
       translation 0 0.2 0.105
@@ -1215,17 +1215,17 @@ DEF UV_OMNI Robot {
   boundingObject USE uv_base
   physics Physics {
   }
-  controller "omni_directional_base"
+  controller "csv_reader"
 }
 Solid {
-  translation -1.5 0 0.05
+  translation -2 0 0.5
   rotation 0 0 1 1.5708
   children [
     Shape {
       appearance USE WALL_APPEARANCE
-      geometry USE WALL_GEOMETRY
+      geometry USE wall_2
     }
   ]
   name "wall(3)"
-  boundingObject USE WALL_GEOMETRY
+  boundingObject USE wall_2
 }
