@@ -1,5 +1,5 @@
 PROTO UVRobotProto [
-  field SFVec3f    translation  -0.01 -0.86 0.14
+  field SFVec3f    translation  1.77 -0.86 0.13
   field SFRotation rotation     0 0 1 0
   field SFFloat    bodyMass     1
 ]
