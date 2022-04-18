@@ -8,13 +8,28 @@ Robot {
     translation IS translation
     rotation IS rotation
     mass IS bodyMass
-  children [
+children [
+    DEF gps_sensor GPS {
+      translation 0 0 0.105
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.666667 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+    }
     SharpGP2D120 {
       translation 0 0.2 0.105
       rotation 0 0 1 1.5708
     }
     DEF cylinder_light Solid {
-      translation 0.05 0 0.75
+      translation 0.05 0 0.58
       children [
         PointLight {
           attenuation 0 0 1
@@ -37,7 +52,7 @@ Robot {
       boundingObject USE light_shape
     }
     DEF cylinder_light Solid {
-      translation -0.05 -0.05 0.75
+      translation -0.05 -0.05 0.58
       children [
         PointLight {
           attenuation 0 0 1
@@ -61,7 +76,7 @@ Robot {
       boundingObject USE light_shape
     }
     DEF cylinder_light Solid {
-      translation -0.05 0.05 0.75
+      translation -0.05 0.05 0.58
       children [
         PointLight {
           attenuation 0 0 1
@@ -1153,7 +1168,7 @@ Robot {
   boundingObject USE uv_base
   physics Physics {
   }
-  controller "omni_directional_base"
+  controller "uv_robot_main"
 }
 
 }

@@ -13,6 +13,10 @@ robot = Robot()
 keyboard = Keyboard()
 keyboard.enable(TIME_STEP)
 
+# setup gps
+gps = robot.getGPS('gps')
+gps.enable(TIME_STEP)
+
 # setup wheels
 wheels = []
 wheel_names = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
@@ -82,7 +86,7 @@ def left(multiplier):
 while robot.step(TIME_STEP) != -1:
     # get currently pressed key 
     key = keyboard.getKey()
-    print(key)
+    # print(key)
     # control robot using key preses
     if key == ord('W'):
         forward(1)
@@ -98,3 +102,12 @@ while robot.step(TIME_STEP) != -1:
     
     else:
         stop()
+
+    # ----- GPS tracking -----
+    gps_values = gps.getValues()
+
+    msg = "GPS Values: "
+    for each_val in gps_values:
+        msg += " {0:0.5f}".format(each_val)
+
+    print(msg)

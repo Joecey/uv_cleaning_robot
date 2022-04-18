@@ -10,20 +10,21 @@ print("succesful")
 
 # function to determine x and y coordinates for robot given OG cell 
 # default cell value as origin 
-def OG_to_XY(column = 0, row = 0,):
-    # constants for cell width and height
-    cell_width = 6/49
-    cell_height = 4/35
-    # print(cell_width, cell_height)
-
+def OG_to_XY(column = 0, row = 0):
     # return x,y coordinate based on cell row and column given
     # return middle of cell (except if given 0)
-    # max column = 49, max row = 35
+    max_column = 62
+    max_row = 42
+
+     # constants for cell width and height
+    cell_width = 6/max_column
+    cell_height = 4/max_row
+
     if column == 0:
         x = 0
 
-    elif column > 49:
-        x = (49 * cell_width) - (cell_width/2)
+    elif column > max_column:
+        x = (max_column * cell_width) - (cell_width/2)
 
     else:
         x = (column * cell_width) - (cell_width/2)
@@ -31,8 +32,8 @@ def OG_to_XY(column = 0, row = 0,):
     if row == 0:
         y = 0
 
-    elif column > 35:
-        y = (35 * cell_height) - (cell_height/2)
+    elif column > max_row:
+        y = (max_row * cell_height) - (cell_height/2)
 
     else:   
         y = (row * cell_height) - (cell_height/2)
@@ -41,7 +42,7 @@ def OG_to_XY(column = 0, row = 0,):
 
 # import csv from OG grid, and import each row 
 # read csv file
-with open('OG1.csv', 'rt') as f:
+with open('SampleTestMap1.csv', 'rt') as f:
     reader = csv.reader(f)
     imported_og = list(reader)
 
@@ -55,11 +56,11 @@ for i in range(len(imported_og)):
             continue
 
 # print each line of occupancy grid
-for i in range(len(imported_og)):
-    print(imported_og[i])
+# for i in range(len(imported_og)):
+#     print(imported_og[i])
 
 # apply x direction then y direction
-x,y = OG_to_XY(55,35)
+x,y = OG_to_XY(62,42)
 print(x,y)
 
 # Main loop:

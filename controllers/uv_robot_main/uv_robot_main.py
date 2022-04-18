@@ -24,6 +24,9 @@ keyboard.enable(TIME_STEP)
 print("World intialisation succesful...")
 
 #--------- Robot intialisation ----- #
+# setup gps
+gps = robot.getGPS('gps')
+gps.enable(TIME_STEP)
 
 # setup wheels
 wheels = []
@@ -88,17 +91,21 @@ def left(multiplier):
 
 #--------- Occupancy grid import ----- #
 # occupancy grid cell to x, y coordinates
-def OG_to_XY(column = 0, row = 0,):
-    # constants for cell width and height
-    cell_width = 6/49
-    cell_height = 4/35
+def OG_to_XY(column = 0, row = 0):
+    # return x,y coordinate based on cell row and column given
+    # return middle of cell (except if given 0)
+    max_column = 62
+    max_row = 42
 
-    # max column = 49, max row = 35
+     # constants for cell width and height
+    cell_width = 6/max_column
+    cell_height = 4/max_row
+
     if column == 0:
         x = 0
 
-    elif column > 49:
-        x = (49 * cell_width) - (cell_width/2)
+    elif column > max_column:
+        x = (max_column * cell_width) - (cell_width/2)
 
     else:
         x = (column * cell_width) - (cell_width/2)
@@ -106,8 +113,8 @@ def OG_to_XY(column = 0, row = 0,):
     if row == 0:
         y = 0
 
-    elif column > 35:
-        y = (35 * cell_height) - (cell_height/2)
+    elif column > max_row:
+        y = (max_row * cell_height) - (cell_height/2)
 
     else:   
         y = (row * cell_height) - (cell_height/2)
@@ -115,7 +122,7 @@ def OG_to_XY(column = 0, row = 0,):
     return(x,y)
 
 # open csv inside folder and export each row to list
-with open('OG1.csv', 'rt') as f:
+with open('SampleTestMap1.csv', 'rt') as f:
     reader = csv.reader(f)
     imported_og = list(reader)
 
@@ -157,3 +164,12 @@ while robot.step(TIME_STEP) != -1:
     
     else:
         stop()
+
+    # ----- GPS tracking -----
+    gps_values = gps.getValues()
+
+    msg = "GPS Values: "
+    for each_val in gps_values:
+        msg += " {0:0.5f}".format(each_val)
+
+    print(msg)

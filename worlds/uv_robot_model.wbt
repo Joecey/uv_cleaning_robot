@@ -11,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.35762748915861414 -0.10607813623323496 0.9278200299688452 3.67871697630132
-  position 10.440158291195923 7.94482504638253 12.286704620055422
+  orientation -0.36653312187461196 -0.11472863781775759 0.9233042890798963 3.704276775773847
+  position 5.230805246084552 5.078690974446347 8.032250972107533
 }
 TexturedBackground {
   texture "noon_building_overcast"
@@ -70,7 +70,23 @@ Solid {
 }
 DEF UV_OMNI Robot {
   translation -0.96 -0.79 0.12
+  rotation 0 0 1 1.57
   children [
+    DEF gps_sensor GPS {
+      translation 0 0 0.105
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.666667 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+    }
     SharpGP2D120 {
       translation 0 0.2 0.105
       rotation 0 0 1 1.5708
