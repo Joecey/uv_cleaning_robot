@@ -11,8 +11,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.37833001798032495 -0.13286158284125268 0.9160863481680773 3.7641074303513897
-  position 10.854470154042392 13.21413323364853 18.866592103766166
+  orientation -0.2955426445366455 -0.10213096058672888 0.949854626850824 3.7759253218956
+  position 10.72134120840618 11.208087789869696 11.687651780683025
 }
 TexturedBackground {
   texture "noon_building_overcast"
@@ -1215,7 +1215,7 @@ DEF UV_OMNI Robot {
   boundingObject USE uv_base
   physics Physics {
   }
-  controller "csv_reader"
+  controller "uv_robot_main"
 }
 Solid {
   translation -2 0 0.5
