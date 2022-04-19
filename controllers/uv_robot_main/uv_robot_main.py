@@ -121,6 +121,23 @@ def TL_start():
     y_reach = False
     x_reach = False
 
+    # go to correct y position
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_y = abs(current_pos[1])
+
+        if abs(TL_xy[1] - current_y) < 0.05:
+            y_reach = True
+
+        else:
+            if TL_xy[1] < current_y:
+                forward(1)
+            else:
+                backward(1)
+
+    # stop wheels briefly to prevent slipping
+    stop()
+
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
@@ -136,23 +153,6 @@ def TL_start():
             else:
                 right(1)
 
-    # stop wheels briefly to prevent slipping
-    stop()
-
-    # go to correct y position
-    while y_reach is False and robot.step(TIME_STEP) != -1:
-        current_pos = gps.getValues()
-        current_y = abs(current_pos[1])
-
-        if abs(TL_xy[1] - current_y) < 0.05:
-            y_reach = True
-
-        else:
-            if TL_xy[1] < current_y:
-                forward(1)
-            else:
-                backward(1)
-
     # begin cleaning protocal
 
 
@@ -161,23 +161,6 @@ def BL_start():
     BL_xy = OG_to_XY(BL[0], BL[1])
     y_reach = False
     x_reach = False
-
-    # go to correct x position
-    while x_reach is False and robot.step(TIME_STEP) != -1:
-        current_pos = gps.getValues()
-        current_x = current_pos[0]
-
-        if abs(BL_xy[0] - current_x) < 0.05:
-            x_reach = True
-
-        else:
-            if BL_xy[0] < current_x:
-                left(1)
-            else:
-                right(1)
-
-    # stop wheels briefly to prevent slipping
-    stop()
 
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
@@ -193,27 +176,29 @@ def BL_start():
             else:
                 backward(1)
 
-def BR_start():
-    BR_xy = OG_to_XY(BR[0], BR[1])
-    y_reach = False
-    x_reach = False
+    # stop wheels briefly to prevent slipping
+    stop()
 
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
         current_x = current_pos[0]
 
-        if abs(BR_xy[0] - current_x) < 0.05:
+        if abs(BL_xy[0] - current_x) < 0.05:
             x_reach = True
 
         else:
-            if BR_xy[0] < current_x:
+            if BL_xy[0] < current_x:
                 left(1)
             else:
                 right(1)
 
-    # stop wheels briefly to prevent slipping
-    stop()
+    
+
+def BR_start():
+    BR_xy = OG_to_XY(BR[0], BR[1])
+    y_reach = False
+    x_reach = False
 
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
@@ -229,28 +214,27 @@ def BR_start():
             else:
                 backward(1)
 
-def TR_start():
-    TR_xy = OG_to_XY(TR[0], TR[1])
-    y_reach = False
-    x_reach = False
+    # stop wheels briefly to prevent slipping
+    stop()
 
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
         current_x = current_pos[0]
 
-        if abs(TR_xy[0] - current_x) < 0.05:
+        if abs(BR_xy[0] - current_x) < 0.05:
             x_reach = True
 
-
         else:
-            if TR_xy[0] < current_x:
+            if BR_xy[0] < current_x:
                 left(1)
             else:
                 right(1)
 
-    # stop wheels briefly to prevent slipping
-    stop()
+def TR_start():
+    TR_xy = OG_to_XY(TR[0], TR[1])
+    y_reach = False
+    x_reach = False
 
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
@@ -266,6 +250,23 @@ def TR_start():
             else:
                 backward(1)
 
+    # stop wheels briefly to prevent slipping
+        stop()
+
+    # go to correct x position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x = current_pos[0]
+
+        if abs(TR_xy[0] - current_x) < 0.05:
+            x_reach = True
+
+
+        else:
+            if TR_xy[0] < current_x:
+                left(1)
+            else:
+                right(1)
 
 #--------- Occupancy grid import ----- #
 # x y coords to occupancy grid
