@@ -32,7 +32,7 @@ def OG_to_XY(column = 0, row = 0):
     if row == 0:
         y = 0
 
-    elif column > max_row:
+    elif row > max_row:
         y = (max_row * cell_height) - (cell_height/2)
 
     else:   
@@ -60,7 +60,7 @@ for i in range(len(imported_og)):
 #     print(imported_og[i])
 
 # apply x direction then y direction
-x,y = OG_to_XY(62,42)
+x,y = OG_to_XY(36, 29)
 print(x,y)
 
 # Main loop:

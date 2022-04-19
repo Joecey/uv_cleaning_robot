@@ -38,7 +38,7 @@ for name in wheel_names:
 # print('wheels ready')
 
 # max speed of wheels
-max_speed = 3 #[rad/s]
+max_speed = 6.28 #[rad/s]
 
 # set initial position goal and speed
 # make all wheels move same direction
@@ -105,19 +105,19 @@ def OG_to_XY(column = 0, row = 0):
         x = 0
 
     elif column > max_column:
-        x = (max_column * cell_width) - (cell_width/2)
+        x = (max_column * cell_width) - (cell_width / 2)
 
     else:
-        x = (column * cell_width) - (cell_width/2)
+        x = (column * cell_width) - (cell_width / 2)
 
     if row == 0:
         y = 0
 
-    elif column > max_row:
-        y = (max_row * cell_height) - (cell_height/2)
+    elif row > max_row:
+        y = (max_row * cell_height) - (cell_height / 2)
 
-    else:   
-        y = (row * cell_height) - (cell_height/2)
+    else:
+        y = (row * cell_height) - (cell_height / 2)
 
     return(x,y)
 
