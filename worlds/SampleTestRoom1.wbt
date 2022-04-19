@@ -1,0 +1,274 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "caster"
+      coulombFriction [
+        0.01
+      ]
+      softERP 0.1
+      softCFM 0.0002
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.5855875911142984 0.5855875202116265 0.5605126486577724 2.1198405875845134
+  position 4.593955614390841 -1.366113326091162 17.978140136033844
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Solid {
+  translation 3.1 -2.1 -0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "https://lynchp13.github.io/WoodenFloor.jpeg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry DEF Floor Box {
+        size 6 4 0.2
+      }
+    }
+  ]
+  name "floor"
+  boundingObject USE Floor
+}
+Solid {
+  translation 6.15 -2.1 1
+  children [
+    Solid {
+      translation -3.05 0 1
+      children [
+        DEF Roof Shape {
+          appearance PBRAppearance {
+            transparency 1
+          }
+          geometry Box {
+            size 6 4 0.1
+          }
+          castShadows FALSE
+        }
+      ]
+      name "Roof"
+      boundingObject USE Roof
+    }
+    Solid {
+      translation -3.05 -2.05 0
+      rotation 0 0 1 1.5708
+      children [
+        DEF LONG_WALL Shape {
+          appearance DEF Wall_app PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "https://lynchp13.github.io/WhitePaintedWall.jpg"
+              ]
+            }
+            transparency 0.6
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 6 2
+          }
+        }
+      ]
+      name "EastWall_l"
+      boundingObject USE LONG_WALL
+    }
+    Solid {
+      translation -6.1 0 0
+      children [
+        DEF SHORT_WALL Shape {
+          appearance USE Wall_app
+          geometry Box {
+            size 0.1 4.2 2
+          }
+        }
+      ]
+      name "SouthWall_s"
+      boundingObject USE SHORT_WALL
+    }
+    Solid {
+      translation -3.05 2.05 0
+      rotation 0 0 1 -1.5707953071795862
+      children [
+        DEF LONG_WALL Shape {
+          appearance USE Wall_app
+          geometry Box {
+            size 0.1 6 2
+          }
+        }
+      ]
+      name "WestWall_l"
+      boundingObject USE LONG_WALL
+    }
+    DEF SHORT_WALL Shape {
+      appearance USE Wall_app
+      geometry Box {
+        size 0.1 4.2 2
+      }
+    }
+  ]
+  name "Walls"
+  boundingObject USE SHORT_WALL
+}
+Cabinet {
+  translation 0.1 -3.7 0
+  name "Cabinet"
+  rowsHeights [
+    0.3, 0.2, 0.2, 0.4, 0.4
+  ]
+}
+Cabinet {
+  translation 0.1 -2.01 0
+  name "BottomCabinet2"
+  rowsHeights [
+    0.2, 0.2, 0.2
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "Drawer (1, 1, 0.4, 0.2)"
+    "Drawer (1, 2, 0.4, 0.2)"
+    "Drawer (2, 1, 0.4, 0.2)"
+    "Drawer (2, 2, 0.4, 0.2)"
+    "Drawer (2, 3, 0.4, 0.2)"
+    "Drawer (1, 3, 0.4, 0.2)"
+  ]
+}
+Cabinet {
+  translation 0.1 -2.87 -7.10543e-15
+  name "BottomCabinet1"
+  rowsHeights [
+    0.6
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1)"
+    "LeftSidedDoor (2, 1, 1, 1)"
+  ]
+}
+Cabinet {
+  translation 0.1 -2.87 1.1
+  name "TopCabinet1"
+  depth 0.2
+  rowsHeights [
+    0.4
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1)"
+    "LeftSidedDoor (2, 1, 1, 1)"
+  ]
+}
+Cabinet {
+  translation 0.1 -2.01 1.1
+  name "TopCabinet2"
+  depth 0.2
+  rowsHeights [
+    0.4
+  ]
+  columnsWidths [
+    0.4, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1)"
+    "LeftSidedDoor (2, 1, 1, 1)"
+  ]
+}
+Solid {
+  translation 4.5 -2.06 0
+  rotation 0 0 1 3.14159
+  children [
+    DEF ct-scanner Transform {
+      translation 0 1.45801e-06 0.6
+      rotation 0 0 -0.9999999999999999 1.5707953071795862
+      scale 0.006 0.006 0.006
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0.14902
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://lynchp13.github.io/CTscannerBed.stl"
+            ]
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.639216 0.643137 0.635294
+            roughness 0.4
+            metalness 0.4
+          }
+          geometry Mesh {
+            url [
+              "https://lynchp13.github.io/CTscannerBase.stl"
+            ]
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            roughness 0.1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://lynchp13.github.io/CTscannerHead.stl"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  name "ct-scaner"
+  boundingObject USE ct-scanner
+}
+Chair {
+  translation 0.4 -1.2 0
+  rotation 0 0 1 -5.307179586466759e-06
+  name "chair(1)"
+  physics Physics {
+  }
+}
+Chair {
+  translation 0.4 -0.56 0
+  rotation 0 0 1 -5.307179586466759e-06
+  name "chair(2)"
+  physics Physics {
+  }
+}
+OfficeChair {
+  translation 0.953016 -2.78367 0
+  rotation 0 0 1 2.87979
+}
+Monitor {
+  translation 0.259975 -2.79075 0.68
+  rotation 0 0 -1 -0.2618053071795865
+  mass 1
+}
+DEF Supervisor_Robot Robot {
+  name "Supervisor"
+  controller "ros"
+  controllerArgs [
+    "--name=CTRoomSupervisor"
+  ]
+  supervisor TRUE
+}
+UVRobotProto {
+}
