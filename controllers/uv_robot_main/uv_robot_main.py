@@ -9,6 +9,9 @@ from controller import Robot, Keyboard
 import numpy as np
 import csv
 
+# import math for distance calcs
+import math
+
 print("Package import successful...")
 
 #--------- World intialisation ----- #
@@ -21,11 +24,22 @@ robot = Robot()
 keyboard = Keyboard()
 keyboard.enable(TIME_STEP)
 
+# target goals
+TL = [12,6] # 0
+BL = [12,37] # 1
+BR = [56, 37] # 2
+TR = [56, 6] # 3
+
+corner_goals = [TL, BL, BR, TR]
+
+Mid_1 = [36,10]
+Mid_2 = [39,29]
+
 print("World intialisation succesful...")
 
 #--------- Robot intialisation ----- #
 # setup gps
-gps = robot.getGPS('gps')
+gps = robot.getDevice('gps')
 gps.enable(TIME_STEP)
 
 # setup wheels
@@ -49,6 +63,18 @@ for i in range(len(wheels)):
 print("Robot intialisation successful...")
     
 #--------- Manual Movement Functions ----- #
+def cw_rotate(multiplier):
+    wheels[0].setVelocity(multiplier * max_speed)
+    wheels[1].setVelocity(-1*multiplier * max_speed)
+    wheels[2].setVelocity(-1* multiplier * max_speed)
+    wheels[3].setVelocity( multiplier * max_speed)
+
+def ccw_rotate(multiplier):
+    wheels[0].setVelocity(-1 *multiplier * max_speed)
+    wheels[1].setVelocity(multiplier * max_speed)
+    wheels[2].setVelocity(multiplier * max_speed)
+    wheels[3].setVelocity(-1 *multiplier * max_speed)
+
 def stop():
     # go forward at applied speed multiplier
     wheels[0].setVelocity(0)
@@ -142,10 +168,42 @@ for i in range(len(imported_og)):
 # -------- Start cleaning -----
 print("Begin Cleaning!")
 
-# FOR LOOP HERE
-# speed multiplier variables from 0 to 1
-# Make sure you click into 3d view before moving 
+found_nearest = False
+shortest_d = 9999
+corner_point = 0
+
 while robot.step(TIME_STEP) != -1:
+
+    # ------ begin automated cleaning -----
+    while found_nearest == False:
+        # Find nearest goal
+        # print(corner_goals)
+
+        # get start position of robot
+        start_pos = gps.getValues()
+        start_x, start_y = start_pos[0], abs(start_pos[1])
+
+        # print(start_x, start_y)
+
+        for check in range(len(corner_goals)):
+            test = corner_goals[check]
+            xy_coords = OG_to_XY(test[0], test[1])
+            # calculate distance
+            temp1 = (xy_coords[0] - start_x)**2
+            temp2 = (xy_coords[1] - start_y)**2
+
+            dist = math.sqrt(temp1 + temp2)
+            # print(dist)
+            # if dist less than shortest value, replace
+            if dist < shortest_d:
+                shortest_d = dist
+                corner_point = check
+
+        found_nearest = True
+        print(shortest_d, corner_point)
+        print("Manual control active")
+
+    # -------- Begin manual control -----
     # get currently pressed key 
     key = keyboard.getKey()
     # print(key)
@@ -161,7 +219,13 @@ while robot.step(TIME_STEP) != -1:
         
     elif key == ord('D'):
         right(1)
-    
+
+    elif key == ord('Q'):
+        ccw_rotate(0.5)
+
+    elif key == ord('E'):
+        cw_rotate(0.5)
+
     else:
         stop()
 
@@ -172,4 +236,4 @@ while robot.step(TIME_STEP) != -1:
     for each_val in gps_values:
         msg += " {0:0.5f}".format(each_val)
 
-    print(msg)
+    # print(msg)
