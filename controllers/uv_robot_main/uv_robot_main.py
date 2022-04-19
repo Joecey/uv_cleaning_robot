@@ -47,7 +47,7 @@ wheels = []
 wheel_names = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheel_names:
     wheels.append(robot.getDevice(name))
-    
+
 # print(wheels)
 # print('wheels ready')
 
@@ -56,12 +56,12 @@ max_speed = 6.28 #[rad/s]
 
 # set initial position goal and speed
 # make all wheels move same direction
-for i in range(len(wheels)):    
+for i in range(len(wheels)):
     wheels[i].setPosition(float('inf'))
     wheels[i].setVelocity(0.0)
 
 print("Robot intialisation successful...")
-    
+
 #--------- Manual Movement Functions ----- #
 def cw_rotate(multiplier):
     wheels[0].setVelocity(multiplier * max_speed)
@@ -115,7 +115,163 @@ def left(multiplier):
     wheels[2].setVelocity(0)
     wheels[3].setVelocity(multiplier * max_speed)
 
+# -------- cleaning point protocals --------
+def TL_start():
+    TL_xy = OG_to_XY(TL[0], TL[1])
+    y_reach = False
+    x_reach = False
+
+    # go to correct x position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x = current_pos[0]
+
+        if abs(TL_xy[0] - current_x) < 0.05:
+            x_reach = True
+
+
+        else:
+            if TL_xy[0] < current_x:
+                left(1)
+            else:
+                right(1)
+
+    # stop wheels briefly to prevent slipping
+    stop()
+
+    # go to correct y position
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_y = abs(current_pos[1])
+
+        if abs(TL_xy[1] - current_y) < 0.05:
+            y_reach = True
+
+        else:
+            if TL_xy[1] < current_y:
+                forward(1)
+            else:
+                backward(1)
+
+    # begin cleaning protocal
+
+
+
+def BL_start():
+    BL_xy = OG_to_XY(BL[0], BL[1])
+    y_reach = False
+    x_reach = False
+
+    # go to correct x position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x = current_pos[0]
+
+        if abs(BL_xy[0] - current_x) < 0.05:
+            x_reach = True
+
+        else:
+            if BL_xy[0] < current_x:
+                left(1)
+            else:
+                right(1)
+
+    # stop wheels briefly to prevent slipping
+    stop()
+
+    # go to correct y position
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_y = abs(current_pos[1])
+
+        if abs(BL_xy[1] - current_y) < 0.05:
+            y_reach = True
+
+        else:
+            if BL_xy[1] < current_y:
+                forward(1)
+            else:
+                backward(1)
+
+def BR_start():
+    BR_xy = OG_to_XY(BR[0], BR[1])
+    y_reach = False
+    x_reach = False
+
+    # go to correct x position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x = current_pos[0]
+
+        if abs(BR_xy[0] - current_x) < 0.05:
+            x_reach = True
+
+        else:
+            if BR_xy[0] < current_x:
+                left(1)
+            else:
+                right(1)
+
+    # stop wheels briefly to prevent slipping
+    stop()
+
+    # go to correct y position
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_y = abs(current_pos[1])
+
+        if abs(BR_xy[1] - current_y) < 0.05:
+            y_reach = True
+
+        else:
+            if BR_xy[1] < current_y:
+                forward(1)
+            else:
+                backward(1)
+
+def TR_start():
+    TR_xy = OG_to_XY(TR[0], TR[1])
+    y_reach = False
+    x_reach = False
+
+    # go to correct x position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x = current_pos[0]
+
+        if abs(TR_xy[0] - current_x) < 0.05:
+            x_reach = True
+
+
+        else:
+            if TR_xy[0] < current_x:
+                left(1)
+            else:
+                right(1)
+
+    # stop wheels briefly to prevent slipping
+    stop()
+
+    # go to correct y position
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_y = abs(current_pos[1])
+
+        if abs(TR_xy[1] - current_y) < 0.05:
+            y_reach = True
+
+        else:
+            if TR_xy[1] < current_y:
+                forward(1)
+            else:
+                backward(1)
+
+
 #--------- Occupancy grid import ----- #
+# x y coords to occupancy grid
+def XY_to_OG(x = 0, y = 0):
+    pass
+
 # occupancy grid cell to x, y coordinates
 def OG_to_XY(column = 0, row = 0):
     # return x,y coordinate based on cell row and column given
@@ -168,55 +324,79 @@ for i in range(len(imported_og)):
 # -------- Start cleaning -----
 print("Begin Cleaning!")
 
-found_nearest = False
-shortest_d = 9999
-corner_point = 0
+# Find nearest goal
+# print(corner_goals)
 
-while robot.step(TIME_STEP) != -1:
+# print(start_x, start_y)
+if robot.step(TIME_STEP) != -1:
+    # get start position of robot
+    start_pos = gps.getValues()
+    start_x, start_y = start_pos[0], abs(start_pos[1])
+
+    # found_nearest = False
+    shortest_d = 9999
+    corner_point = 0
+
+    for check in range(len(corner_goals)):
+        test = corner_goals[check]
+        xy_coords = OG_to_XY(test[0], test[1])
+        # calculate distance
+        temp1 = (xy_coords[0] - start_x) ** 2
+        temp2 = (xy_coords[1] - start_y) ** 2
+
+        dist = math.sqrt(temp1 + temp2)
+        # print(dist)
+        # if dist less than shortest value, replace
+        if dist < shortest_d:
+            shortest_d = dist
+            corner_point = check
+
+    # found_nearest = True
+    print(shortest_d, corner_point)
 
     # ------ begin automated cleaning -----
-    while found_nearest == False:
-        # Find nearest goal
-        # print(corner_goals)
+    if corner_point == 0:
+        TL_start()
+        # BL_start()
+        # BR_start()
+        # TR_start()
 
-        # get start position of robot
-        start_pos = gps.getValues()
-        start_x, start_y = start_pos[0], abs(start_pos[1])
+    elif corner_point == 1:
+        BL_start()
+        # BR_start()
+        # TR_start()
+        # TL_start()
 
-        # print(start_x, start_y)
+    elif corner_point == 2:
+        BR_start()
+        # TR_start()
+        # TL_start()
+        # BL_start()
 
-        for check in range(len(corner_goals)):
-            test = corner_goals[check]
-            xy_coords = OG_to_XY(test[0], test[1])
-            # calculate distance
-            temp1 = (xy_coords[0] - start_x)**2
-            temp2 = (xy_coords[1] - start_y)**2
+    elif corner_point == 3:
+        TR_start()
+        # TL_start()
+        # BL_start()
+        # BR_start()
 
-            dist = math.sqrt(temp1 + temp2)
-            # print(dist)
-            # if dist less than shortest value, replace
-            if dist < shortest_d:
-                shortest_d = dist
-                corner_point = check
 
-        found_nearest = True
-        print(shortest_d, corner_point)
-        print("Manual control active")
+# -------- Begin manual control -----
+print("Manual control active")
+while robot.step(TIME_STEP) != -1:
 
-    # -------- Begin manual control -----
-    # get currently pressed key 
+    # get currently pressed key
     key = keyboard.getKey()
     # print(key)
     # control robot using key preses
     if key == ord('W'):
         forward(1)
-    
+
     elif key == ord('S'):
         backward(1)
-        
+
     elif key == ord('A'):
         left(1)
-        
+
     elif key == ord('D'):
         right(1)
 
