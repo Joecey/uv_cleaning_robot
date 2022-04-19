@@ -27,8 +27,8 @@ keyboard.enable(TIME_STEP)
 # target goals
 TL = [12,6] # 0
 BL = [12,37] # 1
-BR = [56, 37] # 2
-TR = [56, 6] # 3
+BR = [58, 37] # 2
+TR = [58, 6] # 3
 
 corner_goals = [TL, BL, BR, TR]
 

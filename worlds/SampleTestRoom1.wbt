@@ -271,5 +271,5 @@ DEF Supervisor_Robot Robot {
   supervisor TRUE
 }
 UVRobotProto {
-  translation 4.24 -0.78 0.13
+  translation 2.98 -1.51 0.13
 }
