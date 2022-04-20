@@ -45,8 +45,8 @@ keyboard.enable(TIME_STEP)
 
 # target goals
 TL = [12,6] # 0 --> top left
-BL = [12,40] # 1 --> top right
-BR = [58, 40] # 2 --> bottom right
+BL = [12,39] # 1 --> top right
+BR = [58, 39] # 2 --> bottom right
 TR = [58, 6] # 3 --> top right
 
 corner_goals = [TL, BL, BR, TR]
@@ -60,6 +60,10 @@ print("World intialisation succesful...")
 # setup gps
 gps = robot.getDevice('gps')
 gps.enable(TIME_STEP)
+
+# setup pose gps
+gps_pose = robot.getDevice('gps_pose')
+gps_pose.enable(TIME_STEP)
 
 # setup wheels
 wheels = []
@@ -80,6 +84,32 @@ for i in range(len(wheels)):
     wheels[i].setVelocity(0.0)
 
 print("Robot intialisation successful...")
+
+#--------- re-orientate function ----- #
+def re_orient():
+    if robot.step(TIME_STEP) != -1:
+        tolerance = 0.005
+        base_value = gps.getValues()
+        pose_value = gps_pose.getValues()
+        base_x, base_y = base_value[0], base_value[1]
+        pose_x, pose_y = pose_value[0], pose_value[1]
+        print(base_x, pose_x)
+        if base_x != pose_x:
+            if pose_x < base_x:
+                while abs(pose_x-base_x) > tolerance and robot.step(TIME_STEP) != -1:
+                    base_value = gps.getValues()
+                    pose_value = gps_pose.getValues()
+                    base_x, base_y = base_value[0], base_value[1]
+                    pose_x, pose_y = pose_value[0], pose_value[1]
+                    cw_rotate(0.2)
+
+            else:
+                while abs(pose_x-base_x) > tolerance and robot.step(TIME_STEP) != -1:
+                    base_value = gps.getValues()
+                    pose_value = gps_pose.getValues()
+                    base_x, base_y = base_value[0], base_value[1]
+                    pose_x, pose_y = pose_value[0], pose_value[1]
+                    ccw_rotate(0.2)
 
 #--------- Manual Movement Functions ----- #
 def cw_rotate(multiplier = 1):
@@ -136,6 +166,8 @@ def left(multiplier = 1):
 
 # -------- cleaning point protocals --------
 def TL_start():
+    re_orient()
+    stop()
     TL_xy = OG_to_XY(TL[0], TL[1])
     y_reach = False
     x_reach = False
@@ -207,10 +239,12 @@ def TL_start():
 
             # otherwise, if there is no obstacle
             else: 
-                backward(0.7)
+                backward(0.8)
     stop()            
             
 def BL_start():
+    re_orient()
+    stop()
     BL_xy = OG_to_XY(BL[0], BL[1])
     y_reach = False
     x_reach = False
@@ -281,10 +315,12 @@ def BL_start():
 
             # otherwise, if there is no obstacle
             else: 
-                right(0.7)
+                right(0.8)
     stop()  
 
 def BR_start():
+    re_orient()
+    stop()
     BR_xy = OG_to_XY(BR[0], BR[1])
     y_reach = False
     x_reach = False
@@ -354,10 +390,12 @@ def BR_start():
 
             # otherwise, if there is no obstacle
             else: 
-                forward(0.7)
+                forward(0.8)
     stop()
 
 def TR_start():
+    re_orient()
+    stop()
     TR_xy = OG_to_XY(TR[0], TR[1])
     y_reach = False
     x_reach = False
@@ -430,7 +468,7 @@ def TR_start():
 
             # otherwise, if there is no obstacle
             else: 
-                left(0.7)
+                left(0.8)
     stop()  
 
 #--------- Occupancy grid manipulation ----- #
