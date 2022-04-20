@@ -24,6 +24,22 @@ children [
         }
       ]
     }
+    DEF pose_sensor GPS {
+      translation 0 0.15 0.105
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.666667 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "gps_pose"
+    }
     SharpGP2D120 {
       translation 0 0.2 0.105
       rotation 0 0 1 1.5708
