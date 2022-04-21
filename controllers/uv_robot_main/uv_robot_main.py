@@ -29,6 +29,7 @@ for i in range(len(imported_og)):
 
         else:
             continue
+clean_map = imported_og
 
 # set tolerance for occupancy grid and goals
 cell_tolerance = 6
@@ -94,6 +95,16 @@ def re_orient():
         base_x, base_y = base_value[0], base_value[1]
         pose_x, pose_y = pose_value[0], pose_value[1]
         print(base_x, pose_x)
+    
+        # if robot is perfectly 180 degrees turned
+        # if pose_y != base_y:
+        #     while abs(pose_x-base_x) < tolerance  and robot.step(TIME_STEP) != -1:
+        #         base_value = gps.getValues()
+        #         pose_value = gps_pose.getValues()
+        #         base_x, base_y = base_value[0], base_value[1]
+        #         pose_x, pose_y = pose_value[0], pose_value[1]
+        #         cw_rotate(0.2)
+
         if base_x != pose_x:
             if pose_x < base_x:
                 while abs(pose_x-base_x) > tolerance and robot.step(TIME_STEP) != -1:
@@ -165,6 +176,12 @@ def left(multiplier = 1):
     wheels[3].setVelocity(multiplier * max_speed)
 
 # -------- cleaning point protocals --------
+def ct_clean_bot():
+    pass
+
+def ct_clean_top():
+    pass
+
 def TL_start():
     re_orient()
     stop()
@@ -244,6 +261,7 @@ def TL_start():
             # otherwise, if there is no obstacle
             else: 
                 backward(0.8)
+        
     stop()            
             
 def BL_start():
@@ -323,6 +341,7 @@ def BL_start():
             # otherwise, if there is no obstacle
             else: 
                 right(0.8)
+
     stop()  
 
 def BR_start():
@@ -401,6 +420,7 @@ def BR_start():
             # otherwise, if there is no obstacle
             else: 
                 forward(0.8)
+           
     stop()
 
 def TR_start():
@@ -480,6 +500,7 @@ def TR_start():
             # otherwise, if there is no obstacle
             else: 
                 left(0.8)
+ 
     stop()  
 
 #--------- Occupancy grid manipulation ----- #
@@ -595,29 +616,36 @@ if robot.step(TIME_STEP) != -1:
 
 # -------- Begin manual control -----
 print("Manual control active")
+print("WASD for linear movement")
+print("Q and E for rotational movement")
+# for i in range(len(clean_map)):
+#     print(clean_map[i])
+
 while robot.step(TIME_STEP) != -1:
 
     # get currently pressed key
     key = keyboard.getKey()
+    set_speed = 1
     # print(key)
     # control robot using key preses
     if key == ord('W'):
-        forward(1)
+        forward(set_speed)
 
     elif key == ord('S'):
-        backward(1)
+        backward(set_speed)
 
     elif key == ord('A'):
-        left(1)
+        left(set_speed)
 
     elif key == ord('D'):
-        right(1)
+        right(set_speed)
 
     elif key == ord('Q'):
-        ccw_rotate(0.5)
+        ccw_rotate(set_speed)
 
     elif key == ord('E'):
-        cw_rotate(0.5)
+        cw_rotate(set_speed)
+
 
     else:
         stop()
