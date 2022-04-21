@@ -13,8 +13,10 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.2820464612696647 0.11524530612769743 0.9524538377794447 2.399320619505076
-  position 15.140970205868602 -11.410489850586579 10.498878903586851
+  orientation -0.4507014375912013 0.25419337597367825 0.8557183776011409 2.242303059017265
+  position 11.046733814603986 -10.177679058914146 16.816117377951556
+  follow "robot(1)"
+  followType "None"
 }
 TexturedBackground {
 }
@@ -271,6 +273,5 @@ DEF Supervisor_Robot Robot {
   supervisor TRUE
 }
 UVRobotProto {
-  translation 4.68 -3.6 0.13
-  rotation 0 0 -1 5.92017e-06
+  translation 1.54 -1.1 0.08
 }

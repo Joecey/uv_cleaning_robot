@@ -9,7 +9,7 @@ from controller import Robot, Keyboard
 import numpy as np
 import csv
 
-# import math for distance calcs
+# importmath for distance calcs
 import math
 
 print("Package import successful...")
@@ -29,14 +29,15 @@ for i in range(len(imported_og)):
 
         else:
             continue
+clean_map = imported_og
 
 # set tolerance for occupancy grid and goals
-cell_tolerance = 4
+cell_tolerance = 6
 goal_tolerance = 5
 
 
 # create the Robot instance.
-TIME_STEP = 128
+TIME_STEP = 64
 robot = Robot()
 
 # setup keyboard for teleop
@@ -51,8 +52,8 @@ TR = [58, 6] # 3 --> top right
 
 corner_goals = [TL, BL, BR, TR]
 
-Mid_1 = [36,10]
-Mid_2 = [39,29]
+Mid_1 = [36,14]
+Mid_2 = [39,27]
 
 print("World intialisation succesful...")
 
@@ -94,6 +95,16 @@ def re_orient():
         base_x, base_y = base_value[0], base_value[1]
         pose_x, pose_y = pose_value[0], pose_value[1]
         print(base_x, pose_x)
+    
+        # if robot is perfectly 180 degrees turned
+        # if pose_y != base_y:
+        #     while abs(pose_x-base_x) < tolerance  and robot.step(TIME_STEP) != -1:
+        #         base_value = gps.getValues()
+        #         pose_value = gps_pose.getValues()
+        #         base_x, base_y = base_value[0], base_value[1]
+        #         pose_x, pose_y = pose_value[0], pose_value[1]
+        #         cw_rotate(0.2)
+
         if base_x != pose_x:
             if pose_x < base_x:
                 while abs(pose_x-base_x) > tolerance and robot.step(TIME_STEP) != -1:
@@ -165,6 +176,213 @@ def left(multiplier = 1):
     wheels[3].setVelocity(multiplier * max_speed)
 
 # -------- cleaning point protocals --------
+def ct_clean_bot():
+    print("bot")
+    y_reach = False
+    x_reach = False
+
+    # get robot into position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+
+        if abs(current_column - Mid_2[0]) < goal_tolerance:
+            x_reach = True
+        else:
+            if current_column < Mid_2[0]:
+                right()
+            else:
+                left() 
+    stop()
+
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+
+        if abs(current_row - Mid_2[1]) < goal_tolerance - 4:
+            y_reach = True
+        else:
+            forward()
+    re_orient()
+    stop()
+
+    # commence cleaning (circumnavigate ct scanner)
+    obstacle = False
+    while obstacle == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row][current_column + goal_tolerance] == "1":
+            obstacle = True
+        else:
+            right(0.5)
+    
+    re_orient()
+    stop()
+
+    while obstacle == True and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row][current_column + goal_tolerance] == "0":
+            obstacle = False
+        else:
+            backward(0.5)
+
+    re_orient()
+    stop()
+    
+
+    while obstacle == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if abs(current_row - Mid_2[1]) < goal_tolerance:
+            obstacle = True
+        else:
+            forward(0.5)
+
+    re_orient()
+    stop()
+    
+
+    while obstacle == True and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if abs(Mid_2[0] - current_column) > 14:
+            obstacle = False
+        else:
+            left(0.5)
+
+    re_orient()
+    stop()
+
+    clear = False
+    while clear == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if abs(current_row - Mid_1[1]) < 3:
+            clear = True
+        else:
+            forward(0.5)
+    re_orient()
+    stop()
+    while obstacle == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row][current_column+goal_tolerance] == "1":
+            obstacle = True
+        else:
+            right(0.5)
+
+def ct_clean_top():
+    print("top")
+    re_orient()
+    y_reach = False
+    x_reach = False
+
+    # get robot into position
+    while x_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+
+        if abs(current_column - Mid_1[0]) < goal_tolerance:
+            x_reach = True
+        else:
+            if current_column < Mid_1[0]:
+                right()
+            else:
+                left() 
+    stop()
+
+    while y_reach is False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+
+        if abs(current_row - Mid_1[1]) == 0:
+            y_reach = True
+        else:
+            backward()
+    re_orient()
+    stop()
+
+    # commence cleaning (circumnavigate ct scanner)
+    obstacle = False
+    while obstacle == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row][current_column + goal_tolerance] == "1":
+            obstacle = True
+        else:
+            right(0.5)
+    
+    re_orient()
+    stop()
+
+    while obstacle == True and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row][current_column + goal_tolerance] == "0":
+            obstacle = False
+        else:
+            forward(0.5)
+
+    re_orient()
+    stop()
+
+    while obstacle == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row+goal_tolerance][current_column] == "1":
+            obstacle = True
+        else:
+            backward(0.5)
+
+    re_orient()
+    stop()
+
+    while obstacle == True and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if abs(Mid_1[0] - current_column) > 12:
+            obstacle = False
+        else:
+            left(0.5)
+
+    re_orient()
+    stop()
+    clear = False
+    while clear == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if current_row == Mid_2[1]:
+            clear = True
+        else:
+            backward(0.5)
+    re_orient()
+    stop()
+    while obstacle == False and robot.step(TIME_STEP) != -1:
+        current_pos = gps.getValues()
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        if imported_og[current_row][current_column+goal_tolerance] == "1":
+            obstacle = True
+        else:
+            right(0.5)
+
+
 def TL_start():
     re_orient()
     stop()
@@ -175,35 +393,42 @@ def TL_start():
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_y = abs(current_pos[1])
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        
+        # keep moving until obstacle is seen
+        
+        try: 
+            if imported_og[current_row - goal_tolerance][current_column] == "1":
+                y_reach = True
 
-        if abs(TL_xy[1] - current_y) < 0.05:
+            else:
+                forward(1)
+        # if out of index, then we are already close to the walls
+        except IndexError:
             y_reach = True
 
-        else:
-            if TL_xy[1] < current_y:
-                forward(1)
-            else:
-                backward(1)
-
     # stop wheels briefly to prevent slipping
+
     stop()
 
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_x = current_pos[0]
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
 
-        if abs(TL_xy[0] - current_x) < 0.05:
-            x_reach = True
-
-
-        else:
-            if TL_xy[0] < current_x:
-                left(1)
+        # keep moving until obstacle is seen
+       
+        try:
+            if imported_og[current_row][current_column - goal_tolerance] == "1":
+                x_reach = True
             else:
-                right(1)
-
+                left(1)
+        except IndexError:
+            x_reach = True
+        
+    re_orient()
     stop()
     # begin cleaning protocal from TL to BL
     cleaning = True
@@ -217,7 +442,7 @@ def TL_start():
         else:
             # move right until clear
             if imported_og[current_row + cell_tolerance][current_column] == "1":
-                
+                re_orient()
                 # get current position and create a temp goal where obstacle is cleared
                 current_pos = gps.getValues()
                 current_x, current_y = current_pos[0], abs(current_pos[1])
@@ -239,7 +464,8 @@ def TL_start():
 
             # otherwise, if there is no obstacle
             else: 
-                backward(0.8)
+                backward(0.5)
+    re_orient()
     stop()            
             
 def BL_start():
@@ -252,16 +478,17 @@ def BL_start():
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_y = abs(current_pos[1])
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        
+        try:
+            if imported_og[current_row + goal_tolerance][current_column] == "1":
+                y_reach = True
 
-        if abs(BL_xy[1] - current_y) < 0.05:
-            y_reach = True
-
-        else:
-            if BL_xy[1] < current_y:
-                forward(1)
             else:
                 backward(1)
+        except IndexError:
+            y_reach = True
 
     # stop wheels briefly to prevent slipping
     stop()
@@ -269,18 +496,21 @@ def BL_start():
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_x = current_pos[0]
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        
+        try:
+            if imported_og[current_row][current_column - goal_tolerance] == "1":
+                x_reach = True
 
-        if abs(BL_xy[0] - current_x) < 0.05:
+            else:
+                left(1)
+
+        except IndexError:
             x_reach = True
 
-        else:
-            if BL_xy[0] < current_x:
-                left(1)
-            else:
-                right(1)
-
     # begin cleaning protocal from BL to BR
+    re_orient()
     stop()
     cleaning = True
     while cleaning is True and robot.step(TIME_STEP) != -1:
@@ -293,7 +523,7 @@ def BL_start():
         else:
             # move up until clear
             if imported_og[current_row][current_column + cell_tolerance] == "1":
-                
+                re_orient()
                 # get current position and create a temp goal where obstacle is cleared
                 current_pos = gps.getValues()
                 current_x, current_y = current_pos[0], abs(current_pos[1])
@@ -315,7 +545,8 @@ def BL_start():
 
             # otherwise, if there is no obstacle
             else: 
-                right(0.8)
+                right(0.5)
+
     stop()  
 
 def BR_start():
@@ -328,34 +559,40 @@ def BR_start():
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_y = abs(current_pos[1])
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+        
+        try:
+            if imported_og[current_row + goal_tolerance][current_column] == "1":
+                y_reach = True
 
-        if abs(BR_xy[1] - current_y) < 0.05:
-            y_reach = True
-
-        else:
-            if BR_xy[1] < current_y:
-                forward(1)
             else:
                 backward(1)
+        except IndexError:
+            y_reach = True
 
     # stop wheels briefly to prevent slipping
+ 
     stop()
 
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_x = current_pos[0]
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
+       
+        try:
+            if imported_og[current_row][current_column + goal_tolerance] == "1":
+                x_reach = True
 
-        if abs(BR_xy[0] - current_x) < 0.05:
-            x_reach = True
-
-        else:
-            if BR_xy[0] < current_x:
-                left(1)
             else:
                 right(1)
+        # if index is out of range, assume that we are already at the walls
+        except IndexError:
+            x_reach = True
 
+    re_orient()
+    stop()
     # begin cleaning protocal from BR to TR
     cleaning = True
     while cleaning is True and robot.step(TIME_STEP) != -1:
@@ -368,7 +605,7 @@ def BR_start():
         else:
             # move right until clear
             if imported_og[current_row - cell_tolerance][current_column] == "1":
-                
+                re_orient()
                 # get current position and create a temp goal where obstacle is cleared
                 current_pos = gps.getValues()
                 current_x, current_y = current_pos[0], abs(current_pos[1])
@@ -390,7 +627,8 @@ def BR_start():
 
             # otherwise, if there is no obstacle
             else: 
-                forward(0.8)
+                forward(0.5)
+           
     stop()
 
 def TR_start():
@@ -403,16 +641,20 @@ def TR_start():
     # go to correct y position
     while y_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_y = abs(current_pos[1])
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
 
-        if abs(TR_xy[1] - current_y) < 0.05:
+        if current_row < 0:
             y_reach = True
-
         else:
-            if TR_xy[1] < current_y:
-                forward(1)
-            else:
-                backward(1)
+            try:
+                if imported_og[current_row - goal_tolerance][current_column] == "1":
+                    y_reach = True
+
+                else:
+                    forward(1)
+            except IndexError:
+                y_reach = True
 
     # stop wheels briefly to prevent slipping
     stop()
@@ -420,20 +662,20 @@ def TR_start():
     # go to correct x position
     while x_reach is False and robot.step(TIME_STEP) != -1:
         current_pos = gps.getValues()
-        current_x = current_pos[0]
+        current_x, current_y = current_pos[0], abs(current_pos[1])
+        current_column, current_row = XY_to_OG(current_x, current_y)
 
-        if abs(TR_xy[0] - current_x) < 0.05:
+        try:
+            if imported_og[current_row][current_column + goal_tolerance] == "1":
+                x_reach = True
+            else:
+                right(1)
+        except IndexError:
             x_reach = True
 
 
-        else:
-            if TR_xy[0] < current_x:
-                left(1)
-            else:
-                right(1)
-
-    stop()
     # begin cleaning protocal from TR to TL
+    re_orient()
     stop()
     cleaning = True
     while cleaning is True and robot.step(TIME_STEP) != -1:
@@ -446,7 +688,7 @@ def TR_start():
         else:
             # move up until clear
             if imported_og[current_row][current_column - cell_tolerance] == "1":
-                
+                re_orient()
                 # get current position and create a temp goal where obstacle is cleared
                 current_pos = gps.getValues()
                 current_x, current_y = current_pos[0], abs(current_pos[1])
@@ -468,7 +710,8 @@ def TR_start():
 
             # otherwise, if there is no obstacle
             else: 
-                left(0.8)
+                left(0.5)
+   
     stop()  
 
 #--------- Occupancy grid manipulation ----- #
@@ -582,31 +825,57 @@ if robot.step(TIME_STEP) != -1:
         BL_start()
         BR_start()
 
+    # find closest mid point
+    end_pos = gps.getValues()
+    end_x, end_y = XY_to_OG(end_pos[0], end_pos[1])
+
+    # calculate distance
+    temp1 = (Mid_1[0] - end_x) ** 2
+    temp2 = (Mid_1[1] - end_y) ** 2
+    temp3 = (Mid_2[0] - end_x) ** 2
+    temp4 = (Mid_2[1] - end_y) ** 2
+
+    dist_top = math.sqrt(temp1 + temp2)
+    dist_bot = math.sqrt(temp3 + temp4)
+    # print(dist)
+    # if dist less than shortest value, replace
+    if dist_top < dist_bot:
+        ct_clean_top()
+    else:
+        ct_clean_bot()
+
 # -------- Begin manual control -----
 print("Manual control active")
+print("WASD for linear movement")
+print("Q and E for rotational movement")
+# for i in range(len(clean_map)):
+#     print(clean_map[i])
+
 while robot.step(TIME_STEP) != -1:
 
     # get currently pressed key
     key = keyboard.getKey()
+    set_speed = 1
     # print(key)
     # control robot using key preses
     if key == ord('W'):
-        forward(1)
+        forward(set_speed)
 
     elif key == ord('S'):
-        backward(1)
+        backward(set_speed)
 
     elif key == ord('A'):
-        left(1)
+        left(set_speed)
 
     elif key == ord('D'):
-        right(1)
+        right(set_speed)
 
     elif key == ord('Q'):
-        ccw_rotate(0.5)
+        ccw_rotate(set_speed)
 
     elif key == ord('E'):
-        cw_rotate(0.5)
+        cw_rotate(set_speed)
+
 
     else:
         stop()
