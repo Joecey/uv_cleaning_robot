@@ -2,6 +2,7 @@
 Github respository for WeBots simulation of a UV Cleaning robot for completion of the "Introduction to Robotics" module at Trinity College Dublin
 
 ## How navigation works for UV cleaning robot
+* Robot utilises 2 GPS sensors (gps for room position, gps_pose for rotation estimation). Robot manevours with four omni-directional wheels
 * Robot is controlled by "uv_robot_main" controller and given 2-D occupancy grid of room (SampleTestRoom1 used as example)
 * After beginning program, robot locates nearest corner in room and navigates towards nearest waypoint. Robot stops when close to obstacles
 * Robot begins cleaning by slowly moving to next waypoint (counter clockwise direction), avoiding any obstacles that are in path
